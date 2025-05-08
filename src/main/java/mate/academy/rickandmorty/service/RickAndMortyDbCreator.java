@@ -2,6 +2,7 @@ package mate.academy.rickandmorty.service;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import mate.academy.rickandmorty.dto.external.RickAndMortyResponseDataDto;
 import mate.academy.rickandmorty.mapper.RickAndMortyCharacterMapper;
 import mate.academy.rickandmorty.repository.RickAndMortyCharacterRepository;
 import org.springframework.stereotype.Component;
@@ -21,10 +22,12 @@ public class RickAndMortyDbCreator {
 
     public void createRickAndMortyCharacters(String baseUrl) {
         while (baseUrl != null) {
-            rickAndMortyClient.getRickAndMortyCharacter(baseUrl)
-                     .getResults().stream().map(rickAndMortyCharacterMapper::toModel)
+            RickAndMortyResponseDataDto response = rickAndMortyClient
+                    .getRickAndMortyCharacter(baseUrl);
+            response.getResults().stream()
+                    .map(rickAndMortyCharacterMapper::toModel)
                     .forEach(rickAndMortyCharacterRepository::save);
-            baseUrl = rickAndMortyClient.getRickAndMortyCharacter(baseUrl).getInfo().getNext();
+            baseUrl = response.getInfo().getNext();
         }
     }
 }

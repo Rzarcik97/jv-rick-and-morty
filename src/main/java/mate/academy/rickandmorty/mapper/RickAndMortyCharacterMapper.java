@@ -8,10 +8,9 @@ import org.mapstruct.Mapping;
 
 @Mapper(config = MapperConfig.class)
 public interface RickAndMortyCharacterMapper {
-    @Mapping(source = "externalId", target = "id")
+
     RickAndMortyCharacterDto toDto(RickAndMortyCharacter rickAndMortyCharacter);
 
-    @Mapping(target = "id", ignore = true)
     @Mapping(source = "id", target = "externalId")
     RickAndMortyCharacter toModel(RickAndMortyCharacterDto dto);
 }

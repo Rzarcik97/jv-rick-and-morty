@@ -1,10 +1,10 @@
-package mate.academy.rickandmorty.controler;
+package mate.academy.rickandmorty.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import mate.academy.rickandmorty.model.RickAndMortyCharacter;
+import mate.academy.rickandmorty.dto.external.RickAndMortyCharacterDto;
 import mate.academy.rickandmorty.service.RickAndMortyService;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
         + "for characters from rickandmortyapi.com  ")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("API/RickAndMorty")
+@RequestMapping("api/rick-and-morty")
 public class RickAndMortyController {
 
     private final RickAndMortyService rickAndMortyService;
 
     @Operation(summary = "Get Random Character", description = "Get Random from database")
     @GetMapping
-    public RickAndMortyCharacter getRandomCharacter() {
+    public RickAndMortyCharacterDto getRandomCharacter() {
         return rickAndMortyService.getRandomCharacter();
     }
 
@@ -32,8 +32,8 @@ public class RickAndMortyController {
             + "that have the given string in their name, method can sort the results and divide "
             + "them into pages")
     @GetMapping("/{name}")
-    public List<RickAndMortyCharacter> getCharacterByName(@PathVariable String name,
-                                                          @ParameterObject Pageable pageable) {
+    public List<RickAndMortyCharacterDto> getCharacterByName(@PathVariable String name,
+                                                             @ParameterObject Pageable pageable) {
         return rickAndMortyService.getCharacterByName(name,pageable);
     }
 }
